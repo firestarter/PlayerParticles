@@ -117,7 +117,7 @@ public class GuiManager extends Manager implements Listener, Runnable {
         }
 
         Bukkit.getScheduler().runTask(this.playerParticles, () ->
-                this.openGui(pplayer, new GuiInventoryDefault(pplayer)));
+                this.openGui(pplayer, new GuiInventoryManageParticles(pplayer)));
     }
 
     /**

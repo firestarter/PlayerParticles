@@ -121,6 +121,7 @@ public class GuiInventoryManageParticles extends GuiInventory {
                 });
         this.actionButtons.add(resetParticles);
 
+        /*
         // Back Button
         GuiActionButton backButton = new GuiActionButton(
                 INVENTORY_SIZE - 1,
@@ -129,6 +130,7 @@ public class GuiInventoryManageParticles extends GuiInventory {
                 new String[]{},
                 (button, isShiftClick) -> guiManager.transition(new GuiInventoryDefault(pplayer)));
         this.actionButtons.add(backButton);
+         */
 
         this.populate();
     }

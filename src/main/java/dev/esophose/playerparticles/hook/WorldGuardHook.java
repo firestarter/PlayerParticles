@@ -26,6 +26,13 @@ public class WorldGuardHook {
             return;
         
         worldGuardWrapper = WorldGuardWrapper.getInstance();
+        Optional<IWrappedFlag<WrappedState>> flag = worldGuardWrapper.getFlag("player-particles", WrappedState.class);
+
+        if (flag.isPresent()) {
+            flagPlayerParticles = flag.get();
+            return;
+        }
+
         flagPlayerParticles = worldGuardWrapper.registerFlag("player-particles", WrappedState.class, WrappedState.ALLOW).orElse(null);
     }
     

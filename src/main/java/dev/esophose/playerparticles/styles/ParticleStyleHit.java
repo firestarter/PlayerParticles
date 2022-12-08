@@ -21,7 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class ParticleStyleSwords extends DefaultParticleStyle implements Listener {
+public class ParticleStyleHit extends DefaultParticleStyle implements Listener {
 
     private static final List<String> DEFAULT_SWORD_NAMES;
 
@@ -33,8 +33,8 @@ public class ParticleStyleSwords extends DefaultParticleStyle implements Listene
         DEFAULT_SWORD_NAMES.addAll(Arrays.asList("WOOD_SWORD", "WOODEN_SWORD", "STONE_SWORD", "IRON_SWORD", "GOLD_SWORD", "GOLDEN_SWORD", "DIAMOND_SWORD", "NETHERITE_SWORD", "TRIDENT"));
     }
 
-    protected ParticleStyleSwords() {
-        super("swords", false, false, 0);
+    protected ParticleStyleHit() {
+        super("hit", false, false, 0);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ParticleStyleSwords extends DefaultParticleStyle implements Listene
 
     @Override
     protected List<String> getGuiIconMaterialNames() {
-        return Collections.singletonList("IRON_SWORD");
+        return Collections.singletonList("AMETHYST_SHARD");
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ParticleStyleSwords extends DefaultParticleStyle implements Listene
         this.swordNames = config.getStringList("sword-materials");
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageEntity(EntityDamageByEntityEvent event) {
         ParticleManager particleManager = PlayerParticles.getInstance().getManager(ParticleManager.class);
 

@@ -43,7 +43,7 @@ public class DefaultStyles implements Listener {
     public static final ParticleStyle SPHERE = new ParticleStyleSphere();
     public static final ParticleStyle SPIN = new ParticleStyleSpin();
     public static final ParticleStyle SPIRAL = new ParticleStyleSpiral();
-    public static final ParticleStyle SWORDS = new ParticleStyleSwords();
+    public static final ParticleStyle SWORDS = new ParticleStyleHit();
     public static final ParticleStyle TELEPORT = new ParticleStyleTeleport();
     public static final ParticleStyle THICK = new ParticleStyleThick();
     public static final ParticleStyle TRAIL = new ParticleStyleTrail();
