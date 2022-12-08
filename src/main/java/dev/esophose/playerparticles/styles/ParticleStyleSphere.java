@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Location;
 
-public class ParticleStyleSphere extends DefaultParticleStyle {
+public class ParticleStyleSphere extends ConfiguredParticleStyle {
 
     private int density;
     private double radius;
@@ -30,7 +30,7 @@ public class ParticleStyleSphere extends DefaultParticleStyle {
             double dx = this.radius * MathL.sin(phi) * MathL.cos(theta);
             double dy = this.radius * MathL.sin(phi) * MathL.sin(theta);
             double dz = this.radius * MathL.cos(phi);
-            particles.add(new PParticle(location.clone().add(dx, dy, dz)));
+            particles.add(PParticle.point(location.clone().add(dx, dy, dz)));
         }
 
         return particles;

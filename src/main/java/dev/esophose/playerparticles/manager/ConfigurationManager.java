@@ -48,6 +48,7 @@ public class ConfigurationManager extends Manager {
         TOGGLE_ON_MOVE_DELAY("toggle-on-move-delay", 9, "The time (in ticks) a player has to be standing still before they are considered to be stopped", "This setting has no effect if toggle-on-move is set to false", "The value must be a positive whole number"),
         TOGGLE_ON_COMBAT("toggle-on-combat", false, "If true, particles will be completely disabled while the player is in combat", "Note: You can change what styles follow this setting in their individual setting files"),
         TOGGLE_ON_COMBAT_DELAY("toggle-on-combat-delay", 15, "The time (in seconds) a player has to not be damaged/attacked to be considered out of combat", "This setting has no effect if toggle-on-combat is set to false", "The value must be a positive whole number"),
+        TOGGLE_ON_COMBAT_INCLUDE_MOBS("toggle-on-combat-include-mobs", false, "If true, mobs will be included in the combat check in addition to players"),
         DISABLED_WORLDS("disabled-worlds", Collections.singletonList("disabled_world_name"), "A list of worlds that the plugin is disabled in"),
         CHECK_PERMISSIONS_ON_LOGIN("check-permissions-on-login", false, "Should particles a player no longer has permission to use be removed on login?"),
         MAX_PARTICLES("max-particles", 3, "The maximum number of particles a player can apply at once", "The GUI will only display up to 21, don't set this any higher than that"),
@@ -62,6 +63,17 @@ public class ConfigurationManager extends Manager {
         DUST_SIZE("dust-size", 1.0, "How large should dust particles appear?", "Note: Can include decimals", "Only works in 1.13+"),
         GUI_GROUP_CREATION_MESSAGE_DISPLAY_AREA("gui-group-creation-message-display-area", "ACTION_BAR", "Valid values: ACTION_BAR, TITLE, CHAT", "Where should the GUI group creation countdown message be displayed?", "Note: Server versions less than 1.11.2 will always use CHAT"),
         GUI_GROUP_CREATION_BUNGEE_SUPPORT("gui-group-creation-bungee-support", false, "If true, a message will be displayed in chat telling the player to enter the command", "This might be required for some servers using bungee chat plugins"),
+        PRESET_GROUPS_ALLOW_OVERLAPPING("preset-groups-allow-overlapping", false, "If true, applying a preset group will not overwrite the current active particles", "Note: This does not check permissions against the max particles setting, use with caution"),
+        PRESET_GROUPS_OVERLAPPING_ONE_PER_STYLE("preset-groups-overlapping-one-per-style", false, "If true, applying a preset group with overlapping enabled will only allow one particle per style", "Existing particles that cause duplicate styles will be overwritten", "This setting has no effect if preset-groups-allow-overlapping is set to false"),
+
+        GUI_GLASS_COLORS("gui-border-colors", null, "The colors of the glass in the GUI", "Valid colors: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/DyeColor.html"),
+        GUI_GLASS_COLORS_DEFAULT("gui-border-colors.default", "WHITE"),
+        GUI_GLASS_COLORS_EDIT_DATA("gui-border-colors.edit-data", "MAGENTA"),
+        GUI_GLASS_COLORS_EDIT_EFFECT("gui-border-colors.edit-effect", "LIGHT_BLUE"),
+        GUI_GLASS_COLORS_EDIT_PARTICLE("gui-border-colors.edit-particle", "RED"),
+        GUI_GLASS_COLORS_EDIT_STYLE("gui-border-colors.edit-style", "BLUE"),
+        GUI_GLASS_COLORS_MANAGE_GROUPS("gui-border-colors.manage-groups", "BROWN"),
+        GUI_GLASS_COLORS_MANAGE_PARTICLES("gui-border-colors.manage-particles", "ORANGE"),
 
         WORLDGUARD_SETTINGS("worldguard-settings", null, "Settings for WorldGuard", "If WorldGuard is not installed, these settings will do nothing"),
         WORLDGUARD_USE_ALLOWED_REGIONS("worldguard-settings.use-allowed-regions", false, "If true, particles will only be able to spawn if they are in an allowed region and not a disallowed region", "If false, particles will be able to spawn as long as they are not in a disallowed region"),
@@ -263,7 +275,7 @@ public class ConfigurationManager extends Manager {
         boolean setHeaderFooter = !configFile.exists();
         boolean changed = setHeaderFooter;
 
-        this.configuration = CommentedFileConfiguration.loadConfiguration(this.playerParticles, configFile);
+        this.configuration = CommentedFileConfiguration.loadConfiguration(configFile);
 
         if (setHeaderFooter)
             this.configuration.addComments(HEADER);

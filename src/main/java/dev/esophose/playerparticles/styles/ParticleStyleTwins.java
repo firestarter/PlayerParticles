@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Location;
 
-public class ParticleStyleTwins extends DefaultParticleStyle {
+public class ParticleStyleTwins extends ConfiguredParticleStyle {
 
     private int stepX = 0;
     private int stepY = 0;
@@ -34,7 +34,7 @@ public class ParticleStyleTwins extends DefaultParticleStyle {
             double dx = -MathL.cos(slice * this.stepX + orbSlice * i) * this.radius;
             double dy = (this.stepY / (double) this.maxStepY);
             double dz = -MathL.sin(slice * this.stepX + orbSlice * i) * this.radius;
-            particles.add(new PParticle(location.clone().add(dx, dy, dz)));
+            particles.add(PParticle.point(location.clone().add(dx, dy, dz)));
         }
         return particles;
     }

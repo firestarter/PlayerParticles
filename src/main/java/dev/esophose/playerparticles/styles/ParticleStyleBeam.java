@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import org.bukkit.Location;
 
-public class ParticleStyleBeam extends DefaultParticleStyle {
+public class ParticleStyleBeam extends ConfiguredParticleStyle {
 
     private int step = 0;
     private boolean reversed = false;
@@ -31,7 +31,7 @@ public class ParticleStyleBeam extends DefaultParticleStyle {
             double newX = location.getX() + this.radius * MathL.cos(angle);
             double newY = location.getY() + (this.step / 10D) - 1;
             double newZ = location.getZ() + this.radius * MathL.sin(angle);
-            particles.add(new PParticle(new Location(location.getWorld(), newX, newY, newZ)));
+            particles.add(PParticle.point(new Location(location.getWorld(), newX, newY, newZ)));
         }
         return particles;
     }

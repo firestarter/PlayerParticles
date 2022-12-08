@@ -11,14 +11,13 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-public class ParticleStyleWings extends DefaultParticleStyle {
+public class ParticleStyleWings extends ConfiguredParticleStyle {
 
-    private int spawnTimer = 0; // Spawn particles every 3 ticks
-
+    private int spawnTimer;
     private int spawnDelay;
 
     protected ParticleStyleWings() {
-        super("wings", false, true, 0);
+        super("wings", true, true, 0);
     }
 
     @Override
@@ -30,7 +29,7 @@ public class ParticleStyleWings extends DefaultParticleStyle {
                 double x = MathL.sin(t) * offset;
                 double y = MathL.cos(t) * offset;
                 Vector v = VectorUtils.rotateAroundAxisY(new Vector(x, y, -0.3), -Math.toRadians(location.getYaw()));
-                particles.add(new PParticle(location.clone().add(v.getX(), v.getY(), v.getZ())));
+                particles.add(PParticle.point(location.clone().add(v.getX(), v.getY(), v.getZ())));
             }
         }
         return particles;

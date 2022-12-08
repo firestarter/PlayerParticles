@@ -101,6 +101,7 @@ public class PolishLocale implements Locale {
             this.put("group-save-success-overwrite", "&agrupa efektówd &b%name% &azostała zaaktualizowana o twoje aktualne efekty!");
             this.put("group-load-success", "&aZaładowano &b%amount% &aefektów z grupy efektów &b%name%&a!");
             this.put("group-load-preset-success", "&aZaładowano &b%amount% &aefektów z presetu administracyjnego &b%name%&a!");
+            this.put("group-unload-success", "&aUsunięto &b%amount% &aparticle(s) pasujące do grupy &b%name%&a!");
             this.put("group-remove-preset", "&cNie możesz usuwać presetów administracyjnych!");
             this.put("group-remove-success", "&aUsunięto grupę efektów &b%name%&a!");
             this.put("group-info-header", "&eGrupa &b%group% &ema następujące efekty:");
@@ -282,8 +283,10 @@ public class PolishLocale implements Locale {
 
             this.put("#33", "GUI Manage Particles Messages");
             this.put("gui-manage-your-particles", "Zarządzaj Swoimi Efektami");
+            this.put("gui-manage-your-particles-name", "Zarządzaj Swoimi Efektami");
             this.put("gui-manage-your-particles-description", "Twórz, edytuj oraz usuwaj twoje efekty");
             this.put("gui-manage-your-groups", "Zarządzaj Swoimi Grupami");
+            this.put("gui-manage-your-groups-name", "Zarządzaj Swoimi Grupami");
             this.put("gui-manage-your-groups-description", "Twórz, edytuj oraz usuwaj twoje grupy efektów");
 
             this.put("#34", "GUI Load Messages");

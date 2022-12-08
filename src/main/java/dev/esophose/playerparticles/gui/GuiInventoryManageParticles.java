@@ -3,6 +3,7 @@ package dev.esophose.playerparticles.gui;
 import dev.esophose.playerparticles.PlayerParticles;
 import dev.esophose.playerparticles.api.PlayerParticlesAPI;
 import dev.esophose.playerparticles.manager.ConfigurationManager.GuiIcon;
+import dev.esophose.playerparticles.manager.ConfigurationManager.Setting;
 import dev.esophose.playerparticles.manager.GuiManager;
 import dev.esophose.playerparticles.manager.LocaleManager;
 import dev.esophose.playerparticles.manager.PermissionManager;
@@ -24,7 +25,7 @@ public class GuiInventoryManageParticles extends GuiInventory {
         LocaleManager localeManager = PlayerParticles.getInstance().getManager(LocaleManager.class);
         GuiManager guiManager = PlayerParticles.getInstance().getManager(GuiManager.class);
 
-        this.fillBorder(BorderColor.ORANGE);
+        this.fillBorder(BorderColor.getOrDefault(Setting.GUI_GLASS_COLORS_MANAGE_PARTICLES.getString(), BorderColor.ORANGE));
 
         // Manage/Delete Particle Buttons
         List<ParticlePair> particles = new ArrayList<>(pplayer.getActiveParticles());
@@ -41,7 +42,7 @@ public class GuiInventoryManageParticles extends GuiInventory {
                     .build();
             GuiActionButton selectButton = new GuiActionButton(
                     index,
-                    GuiIcon.PARTICLES.get(),
+                    particle.getStyle().getGuiIconMaterial(),
                     localeManager.getLocaleMessage("gui-color-icon-name") + localeManager.getLocaleMessage("gui-particle-name", StringPlaceholders.single("id", particle.getId())),
                     new String[]{
                             localeManager.getLocaleMessage("gui-color-subtext") + localeManager.getLocaleMessage("gui-click-to-edit-particle"),

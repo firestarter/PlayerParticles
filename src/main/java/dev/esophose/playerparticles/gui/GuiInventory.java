@@ -37,8 +37,8 @@ public abstract class GuiInventory {
         RED(14, "RED_STAINED_GLASS_PANE"),
         BLACK(15, "BLACK_STAINED_GLASS_PANE");
         
-        private short data;
-        private Material material;
+        private final short data;
+        private final Material material;
         
         BorderColor(int data, String materialName) {
             this.data = (short)data;
@@ -63,6 +63,14 @@ public abstract class GuiInventory {
             }
             
             return borderIcon;
+        }
+
+        public static BorderColor getOrDefault(String name, BorderColor defaultValue) {
+            for (BorderColor color : BorderColor.values()) {
+                if (color.name().equalsIgnoreCase(name))
+                    return color;
+            }
+            return defaultValue;
         }
     }
     
@@ -93,6 +101,18 @@ public abstract class GuiInventory {
      */
     public Inventory getInventory() {
         return this.inventory;
+    }
+
+    /**
+     * @return The first empty slot in the inventory, taking buttons into account
+     */
+    public int getFirstEmptySlot() {
+        for (int i = 0; i < this.inventory.getSize(); i++) {
+            int finalI = i;
+            if (this.inventory.getItem(i) == null && this.actionButtons.stream().noneMatch(x -> x.getSlot() == finalI))
+                return i;
+        }
+        return -1;
     }
     
     /**

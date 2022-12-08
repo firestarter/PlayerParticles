@@ -101,6 +101,7 @@ public class RussianLocale implements Locale {
             this.put("group-save-success-overwrite", "&aГруппа &b%name% &aбыла обновлена с Вашими частицами!");
             this.put("group-load-success", "&aИз группы &b%name%&a прикреплено частиц - &b%amount%!");
             this.put("group-load-preset-success", "&aИз группы &b%name%&a прикреплено частиц - &b%amount%");
+            this.put("group-unload-success", "&aУдалено &b%amount% &aчастиц, соответствующих группе &b%name%&a!");
             this.put("group-remove-preset", "&cВы не можете удалить заданную группу!");
             this.put("group-remove-success", "&aУдалена группа под названием &b%name%&a!");
             this.put("group-info-header", "&eГруппа &b%group% &eимеет следующие частицы:");
@@ -282,8 +283,10 @@ public class RussianLocale implements Locale {
 
             this.put("#30", "GUI Manage Particles Messages");
             this.put("gui-manage-your-particles", "Создать свой эффект");
+            this.put("gui-manage-your-particles-name", "Создать свой эффект");
             this.put("gui-manage-your-particles-description", "Создание, изменение и удаление Ваших частиц");
             this.put("gui-manage-your-groups", "Управление группами");
+            this.put("gui-manage-your-groups-name", "Управление группами");
             this.put("gui-manage-your-groups-description", "Создание, изменение и удаление Ваших групп");
 
             this.put("#31", "GUI Load Messages");

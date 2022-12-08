@@ -101,6 +101,7 @@ public class FrenchLocale implements Locale {
             this.put("group-save-success-overwrite", "&aLe groupe &b%name% &aa été mis à jour avec vos particules actuelle !");
             this.put("group-load-success", "&b%amount% &aparticule(s) appliqués venant du groupe sauvegardé nommé &b%name% &a!");
             this.put("group-load-preset-success", "&b%amount% &aparticule(s) appliqués venant du preset sauvegardé nommé &b%name% &a!");
+            this.put("group-unload-success", "&aEnlevé &b%amount% &aparticle(s) correspondant au groupe &b%name%&a !");
             this.put("group-remove-preset", "&cVous ne pouvez pas supprimer un groupe de presets !");
             this.put("group-remove-success", "&aGroupe de particules &b%name% &asupprimé !");
             this.put("group-info-header", "&eLe groupe &b%group% &eposséde les particules suivantes :");
@@ -282,8 +283,10 @@ public class FrenchLocale implements Locale {
 
             this.put("#30", "GUI Manage Particles Messages");
             this.put("gui-manage-your-particles", "Gérez vos particules");
+            this.put("gui-manage-your-particles-name", "Gérez vos particules");
             this.put("gui-manage-your-particles-description", "Créez, éditez, et supprimez vos particules");
             this.put("gui-manage-your-groups", "Gérez vos groupes");
+            this.put("gui-manage-your-groups-name", "Gérez vos groupes");
             this.put("gui-manage-your-groups-description", "Créez, éditez, et supprimez vos groupes particules");
 
             this.put("#31", "GUI Load Messages");

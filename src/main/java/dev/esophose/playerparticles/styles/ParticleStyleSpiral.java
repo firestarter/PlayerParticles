@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import org.bukkit.Location;
 
-public class ParticleStyleSpiral extends DefaultParticleStyle {
+public class ParticleStyleSpiral extends ConfiguredParticleStyle {
 
     private int stepX = 0;
 
@@ -28,7 +28,7 @@ public class ParticleStyleSpiral extends DefaultParticleStyle {
             double dx = -(MathL.cos(((this.stepX + stepY) / (double) this.particlesPerRotation) * Math.PI * 2)) * this.radius;
             double dy = stepY / this.particlesPerRotation / 2D;
             double dz = -(MathL.sin(((this.stepX + stepY) / (double) this.particlesPerRotation) * Math.PI * 2)) * this.radius;
-            particles.add(new PParticle(location.clone().add(dx, dy, dz)));
+            particles.add(PParticle.point(location.clone().add(dx, dy, dz)));
         }
         return particles;
     }

@@ -15,7 +15,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-public class ParticleStyleOutline extends DefaultParticleStyle {
+public class ParticleStyleOutline extends ConfiguredParticleStyle {
 
     private double particleDistance;
     private int spawnDelay;
@@ -58,7 +58,7 @@ public class ParticleStyleOutline extends DefaultParticleStyle {
             corner2 = location.clone().add(0.3, 0.9, 0.3);
         }
 
-        return this.getHollowCube(corner1, corner2, this.particleDistance).stream().map(PParticle::new).collect(Collectors.toList());
+        return this.getHollowCube(corner1, corner2, this.particleDistance).stream().map(PParticle::point).collect(Collectors.toList());
     }
 
     @Override

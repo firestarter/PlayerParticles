@@ -20,7 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-public class ParticleStyleFishing extends DefaultParticleStyle implements Listener {
+public class ParticleStyleFishing extends ConfiguredParticleStyle implements Listener {
 
     // I hate legacy versions. The Spigot API changed the PlayerFishEvent#getHook method from returning a Fish to a FishHook in 1.13
     private static Method PlayerFishEvent_getHook;
@@ -51,7 +51,7 @@ public class ParticleStyleFishing extends DefaultParticleStyle implements Listen
         for (Projectile projectile : listCopy) {
             ProjectileSource shooter = projectile.getShooter();
             if (shooter instanceof Player && ((Player) shooter).getUniqueId().equals(particle.getOwnerUniqueId()))
-                particles.add(new PParticle(projectile.getLocation(), 0.05F, 0.05F, 0.05F, 0.0F));
+                particles.add(PParticle.builder(projectile.getLocation()).offsets(0.05F, 0.05F, 0.05F).build());
         }
 
         return particles;

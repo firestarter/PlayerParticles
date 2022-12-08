@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import org.bukkit.Location;
 
-public class ParticleStyleWhirl extends DefaultParticleStyle {
+public class ParticleStyleWhirl extends ConfiguredParticleStyle {
 
     private double step = 0;
 
@@ -35,7 +35,7 @@ public class ParticleStyleWhirl extends DefaultParticleStyle {
             double angle = Math.atan2(dz, dx);
             double xAng = MathL.cos(angle);
             double zAng = MathL.sin(angle);
-            particles.add(new PParticle(location.clone().add(0, dy, 0), xAng, 0, zAng, speed, true));
+            particles.add(PParticle.builder(location.clone().add(0, dy, 0)).offsets(xAng, 0, zAng).speed(speed).directional().build());
         }
 
         return particles;

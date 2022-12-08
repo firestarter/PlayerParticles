@@ -1,20 +1,27 @@
 package dev.esophose.playerparticles.styles;
 
+import dev.esophose.playerparticles.PlayerParticles;
 import dev.esophose.playerparticles.config.CommentedFileConfiguration;
+import dev.esophose.playerparticles.manager.ParticleManager;
 import dev.esophose.playerparticles.particles.PParticle;
+import dev.esophose.playerparticles.particles.ParticleEffect;
 import dev.esophose.playerparticles.particles.ParticlePair;
+import dev.esophose.playerparticles.particles.data.ColorTransition;
 import dev.esophose.playerparticles.particles.data.OrdinaryColor;
+import dev.esophose.playerparticles.util.HexUtils;
 import dev.esophose.playerparticles.util.VectorUtils;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-public class ParticleStyleIcosphere extends DefaultParticleStyle {
+public class ParticleStyleIcosphere extends ConfiguredParticleStyle {
 
     private int ticksPerSpawn;
     private double radius;
@@ -25,9 +32,11 @@ public class ParticleStyleIcosphere extends DefaultParticleStyle {
     private double angularVelocityZ;
 
     private int step;
+    private final ParticleManager particleManager;
 
     protected ParticleStyleIcosphere() {
         super("icosphere", true, true, 0);
+        this.particleManager = PlayerParticles.getInstance().getManager(ParticleManager.class);
     }
 
     @Override
@@ -46,7 +55,43 @@ public class ParticleStyleIcosphere extends DefaultParticleStyle {
         double yRotation = multiplier * this.angularVelocityY;
         double zRotation = multiplier * this.angularVelocityZ;
 
-        if (particle.getColor().equals(OrdinaryColor.RAINBOW)) {
+        if (particle.getEffect() == ParticleEffect.DUST_COLOR_TRANSITION) {
+            ColorTransition colorTransition = particle.getColorTransition();
+            Color startColor;
+            if (colorTransition.getStartColor().equals(OrdinaryColor.RAINBOW)) {
+                OrdinaryColor color = this.particleManager.getRainbowParticleColor();
+                startColor = new Color(color.getRed(), color.getGreen(), color.getBlue());
+            } else if (colorTransition.getStartColor().equals(OrdinaryColor.RANDOM)) {
+                OrdinaryColor color = this.particleManager.getRandomParticleColor();
+                startColor = new Color(color.getRed(), color.getGreen(), color.getBlue());
+            } else {
+                startColor = new Color(colorTransition.getStartColor().getRed(), colorTransition.getStartColor().getGreen(), colorTransition.getStartColor().getBlue());
+            }
+
+            Color endColor;
+            if (colorTransition.getEndColor().equals(OrdinaryColor.RAINBOW)) {
+                OrdinaryColor color = this.particleManager.getShiftedRainbowParticleColor();
+                endColor = new Color(color.getRed(), color.getGreen(), color.getBlue());
+            } else if (colorTransition.getEndColor().equals(OrdinaryColor.RANDOM)) {
+                OrdinaryColor color = this.particleManager.getRainbowParticleColor();
+                endColor = new Color(color.getRed(), color.getGreen(), color.getBlue());
+            } else {
+                endColor = new Color(colorTransition.getEndColor().getRed(), colorTransition.getEndColor().getGreen(), colorTransition.getEndColor().getBlue());
+            }
+
+            List<Vector> sortedPoints = new ArrayList<>(points);
+            sortedPoints.sort(Comparator.comparingDouble(Vector::getY));
+
+            HexUtils.AnimatedGradient gradient = new HexUtils.AnimatedGradient(Arrays.asList(startColor, endColor), sortedPoints.size(), 2);
+
+            for (Vector point : sortedPoints) {
+                Color color = gradient.nextColor();
+                OrdinaryColor ordinaryColor = new OrdinaryColor(color.getRed(), color.getGreen(), color.getBlue());
+                ColorTransition optionalData = new ColorTransition(ordinaryColor, ordinaryColor);
+                VectorUtils.rotateVector(point, xRotation, yRotation, zRotation);
+                particles.add(PParticle.builder(location.clone().add(point)).overrideData(optionalData).build());
+            }
+        } else if (particle.getColor().equals(OrdinaryColor.RAINBOW)) {
             double lowest = points.stream().mapToDouble(Vector::getY).min().orElse(1);
             double highest = points.stream().mapToDouble(Vector::getY).max().orElse(2);
             double range = highest - lowest;
@@ -56,7 +101,7 @@ public class ParticleStyleIcosphere extends DefaultParticleStyle {
                 Color color = Color.getHSBColor((float) hue, 1.0F, 1.0F);
                 OrdinaryColor optionalData = new OrdinaryColor(color.getRed(), color.getGreen(), color.getBlue());
                 VectorUtils.rotateVector(point, xRotation, yRotation, zRotation);
-                particles.add(new PParticle(location.clone().add(point), 0, 0, 0, 0, false, optionalData));
+                particles.add(PParticle.builder(location.clone().add(point)).overrideData(optionalData).build());
             }
         } else if (particle.getColor().equals(new OrdinaryColor(0, 0, 0))) {
             double lowest = points.stream().mapToDouble(Vector::getY).min().orElse(1);
@@ -68,12 +113,12 @@ public class ParticleStyleIcosphere extends DefaultParticleStyle {
                 int value = (int) ((Math.cos(theta) + 1) / 2 * 255);
                 OrdinaryColor optionalData = new OrdinaryColor(value, value, value);
                 VectorUtils.rotateVector(point, xRotation, yRotation, zRotation);
-                particles.add(new PParticle(location.clone().add(point), 0, 0, 0, 0, false, optionalData));
+                particles.add(PParticle.builder(location.clone().add(point)).overrideData(optionalData).build());
             }
         } else {
             for (Vector point : points) {
                 VectorUtils.rotateVector(point, xRotation, yRotation, zRotation);
-                particles.add(new PParticle(location.clone().add(point), 0, 0, 0, 0, false, null));
+                particles.add(PParticle.point(location.clone().add(point)));
             }
         }
 

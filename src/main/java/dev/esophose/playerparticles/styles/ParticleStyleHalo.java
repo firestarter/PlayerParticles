@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Location;
 
-public class ParticleStyleHalo extends DefaultParticleStyle {
+public class ParticleStyleHalo extends ConfiguredParticleStyle {
 
     private boolean skipNextSpawn = false;
 
@@ -34,7 +34,7 @@ public class ParticleStyleHalo extends DefaultParticleStyle {
             double dx = this.radius * MathL.cos(angle);
             double dy = this.playerOffset;
             double dz = this.radius * MathL.sin(angle);
-            particles.add(new PParticle(location.clone().add(dx, dy, dz)));
+            particles.add(PParticle.point(location.clone().add(dx, dy, dz)));
         }
         return particles;
     }

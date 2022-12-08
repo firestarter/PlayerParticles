@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import org.bukkit.Location;
 
-public class ParticleStyleSpin extends DefaultParticleStyle {
+public class ParticleStyleSpin extends ConfiguredParticleStyle {
 
     private int step = 0;
 
@@ -27,7 +27,7 @@ public class ParticleStyleSpin extends DefaultParticleStyle {
         double newX = location.getX() + this.radius * MathL.cos(slice);
         double newY = location.getY() + this.offset;
         double newZ = location.getZ() + this.radius * MathL.sin(slice);
-        return Collections.singletonList(new PParticle(new Location(location.getWorld(), newX, newY, newZ)));
+        return Collections.singletonList(PParticle.point(new Location(location.getWorld(), newX, newY, newZ)));
     }
 
     @Override

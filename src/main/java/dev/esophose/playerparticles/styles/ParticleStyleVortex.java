@@ -33,7 +33,7 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-public class ParticleStyleVortex extends DefaultParticleStyle {
+public class ParticleStyleVortex extends ConfiguredParticleStyle {
 
     private int step = 0;
 
@@ -56,7 +56,7 @@ public class ParticleStyleVortex extends DefaultParticleStyle {
             double angle = this.step * this.radials + (2 * Math.PI * i / this.helices);
             Vector v = new Vector(MathL.cos(angle) * radius, this.step * this.grow - 1, MathL.sin(angle) * radius);
 
-            particles.add(new PParticle(location.clone().add(v)));
+            particles.add(PParticle.point(location.clone().add(v)));
         }
 
         return particles;

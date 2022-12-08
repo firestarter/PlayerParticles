@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Location;
 
-public class ParticleStyleQuadhelix extends DefaultParticleStyle {
+public class ParticleStyleQuadhelix extends ConfiguredParticleStyle {
 
     private int stepX = 0;
     private int stepY = 0;
@@ -30,7 +30,7 @@ public class ParticleStyleQuadhelix extends DefaultParticleStyle {
             double dx = -(MathL.cos((this.stepX / (double) this.maxStepX) * (Math.PI * 2) + (((Math.PI * 2) / this.orbs) * i))) * ((this.maxStepY - Math.abs(this.stepY)) / (double) this.maxStepY);
             double dy = (this.stepY / (double) this.maxStepY) * 1.5;
             double dz = -(MathL.sin((this.stepX / (double) this.maxStepX) * (Math.PI * 2) + (((Math.PI * 2) / this.orbs) * i))) * ((this.maxStepY - Math.abs(this.stepY)) / (double) this.maxStepY);
-            particles.add(new PParticle(location.clone().add(dx, dy, dz)));
+            particles.add(PParticle.point(location.clone().add(dx, dy, dz)));
         }
         return particles;
     }

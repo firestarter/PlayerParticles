@@ -38,7 +38,7 @@ import org.bukkit.util.Vector;
  * The project this is from is called EffectLib and can be found here:
  * https://github.com/Slikey/EffectLib
  */
-public class ParticleStyleCube extends DefaultParticleStyle {
+public class ParticleStyleCube extends ConfiguredParticleStyle {
 
     private int step = 0;
     private boolean skipNextStep = false; // Only spawn every 2 ticks
@@ -76,7 +76,7 @@ public class ParticleStyleCube extends DefaultParticleStyle {
                     VectorUtils.rotateAroundAxisX(v, angleX);
                     VectorUtils.rotateAroundAxisY(v, angleY);
                     VectorUtils.rotateVector(v, xRotation, yRotation, zRotation);
-                    pparticles.add(new PParticle(location.clone().add(v)));
+                    pparticles.add(PParticle.point(location.clone().add(v)));
                 }
             }
             for (int p = 0; p <= this.particlesPerEdge; p++) {
@@ -84,7 +84,7 @@ public class ParticleStyleCube extends DefaultParticleStyle {
                 v.setY(this.edgeLength * p / this.particlesPerEdge - a);
                 VectorUtils.rotateAroundAxisY(v, angleY);
                 VectorUtils.rotateVector(v, xRotation, yRotation, zRotation);
-                pparticles.add(new PParticle(location.clone().add(v)));
+                pparticles.add(PParticle.point(location.clone().add(v)));
             }
         }
 

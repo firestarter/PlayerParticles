@@ -19,7 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-public class ParticleStyleTeleport extends DefaultParticleStyle implements Listener {
+public class ParticleStyleTeleport extends ConfiguredParticleStyle implements Listener {
 
     private boolean before;
     private boolean after;
@@ -37,7 +37,7 @@ public class ParticleStyleTeleport extends DefaultParticleStyle implements Liste
         List<PParticle> particles = new ArrayList<>();
 
         for (int i = 0; i < this.amount; i++)
-            particles.add(new PParticle(location, this.spread, this.spread, this.spread, this.speed));
+            particles.add(PParticle.builder(location).offsets(this.spread, this.spread, this.spread).speed(this.speed).build());
 
         return particles;
     }

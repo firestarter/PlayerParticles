@@ -17,11 +17,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-public class ParticleStyleBlockPlace extends DefaultParticleStyle implements Listener {
+public class ParticleStyleBlockPlace extends ConfiguredParticleStyle implements Listener {
 
     private int particleAmount;
     private double particleSpread;
     private double particleSpeed;
+    private boolean ignoreCancelledEvents;
 
     protected ParticleStyleBlockPlace() {
         super("blockplace", false, false, 0);
@@ -34,7 +35,7 @@ public class ParticleStyleBlockPlace extends DefaultParticleStyle implements Lis
         location.add(0.5, 0.5, 0.5); // Center around the block
 
         for (int i = 0; i < this.particleAmount; i++)
-            particles.add(new PParticle(location, this.particleSpread, this.particleSpread, this.particleSpread, this.particleSpeed));
+            particles.add(PParticle.builder(location).offsets(this.particleSpread, this.particleSpread, this.particleSpread).speed(this.particleSpeed).build());
 
         return particles;
     }
@@ -59,6 +60,7 @@ public class ParticleStyleBlockPlace extends DefaultParticleStyle implements Lis
         this.setIfNotExists("particle-amount", 10, "The number of particles to spawn");
         this.setIfNotExists("particle-spread", 0.75, "The distance to spread particles");
         this.setIfNotExists("particle-speed", 0.05, "The speed of the particles");
+        this.setIfNotExists("ignore-cancelled-events", false, "If true, particles will still be spawned even if the BlockPlaceEvent is cancelled");
     }
 
     @Override
@@ -66,10 +68,14 @@ public class ParticleStyleBlockPlace extends DefaultParticleStyle implements Lis
         this.particleAmount = config.getInt("particle-amount");
         this.particleSpread = config.getInt("particle-spread");
         this.particleSpeed = config.getDouble("particle-speed");
+        this.ignoreCancelledEvents = config.getBoolean("ignore-cancelled-events");
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockPlace(BlockPlaceEvent event) {
+        if (event.isCancelled() && !this.ignoreCancelledEvents)
+            return;
+
         ParticleManager particleManager = PlayerParticles.getInstance().getManager(ParticleManager.class);
 
         Player player = event.getPlayer();

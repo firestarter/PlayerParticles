@@ -3,12 +3,12 @@ package dev.esophose.playerparticles.util;
 import dev.esophose.playerparticles.manager.ConfigurationManager.Setting;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -17,6 +17,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionEffectType;
 
 public final class ParticleUtils {
@@ -109,7 +110,9 @@ public final class ParticleUtils {
      * @return The input string but formatted with each word capitalized
      */
     public static String formatName(String string) {
-        return WordUtils.capitalizeFully(string.replaceAll("_", " "));
+        return Arrays.stream(string.replace('_', ' ').split("\\s+"))
+                .map(x -> x.substring(0, 1).toUpperCase() + x.substring(1).toLowerCase())
+                .collect(Collectors.joining(" "));
     }
 
     /**
@@ -133,6 +136,13 @@ public final class ParticleUtils {
         return n.length + 1;
     }
 
+    public static boolean isNumeric(String string) {
+        for (char c : string.trim().toCharArray())
+            if (!Character.isDigit(c))
+                return false;
+        return true;
+    }
+
     public static boolean containsConfigSpecialCharacters(String string) {
         for (char c : string.toCharArray()) {
             // Range taken from SnakeYAML's Emitter.java
@@ -148,7 +158,7 @@ public final class ParticleUtils {
 
     public static boolean isPlayerVisible(Player player) {
         return Setting.DISPLAY_WHEN_INVISIBLE.getBoolean() || ((NMSUtil.getVersionNumber() <= 8 || player.getGameMode() != GameMode.SPECTATOR)
-                && !player.hasPotionEffect(PotionEffectType.INVISIBILITY));
+                && !player.hasPotionEffect(PotionEffectType.INVISIBILITY)) || player.getMetadata("vanished").stream().anyMatch(MetadataValue::asBoolean);
     }
 
     public static String rgbToHex(int r, int g, int b) {

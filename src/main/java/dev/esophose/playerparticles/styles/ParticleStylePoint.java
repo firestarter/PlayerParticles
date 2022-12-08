@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import org.bukkit.Location;
 
-public class ParticleStylePoint extends DefaultParticleStyle {
+public class ParticleStylePoint extends ConfiguredParticleStyle {
 
     private double offset;
 
@@ -17,7 +17,7 @@ public class ParticleStylePoint extends DefaultParticleStyle {
 
     @Override
     public List<PParticle> getParticles(ParticlePair particle, Location location) {
-        return Collections.singletonList(new PParticle(location.clone().add(0.0, this.offset, 0.0)));
+        return Collections.singletonList(PParticle.point(location.clone().add(0.0, this.offset, 0.0)));
     }
 
     @Override

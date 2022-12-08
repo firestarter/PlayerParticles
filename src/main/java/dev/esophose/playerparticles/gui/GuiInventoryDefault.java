@@ -3,6 +3,7 @@ package dev.esophose.playerparticles.gui;
 import dev.esophose.playerparticles.PlayerParticles;
 import dev.esophose.playerparticles.api.PlayerParticlesAPI;
 import dev.esophose.playerparticles.manager.ConfigurationManager.GuiIcon;
+import dev.esophose.playerparticles.manager.ConfigurationManager.Setting;
 import dev.esophose.playerparticles.manager.GuiManager;
 import dev.esophose.playerparticles.manager.LocaleManager;
 import dev.esophose.playerparticles.manager.ParticleGroupPresetManager;
@@ -29,7 +30,7 @@ public class GuiInventoryDefault extends GuiInventory {
         LocaleManager localeManager = PlayerParticles.getInstance().getManager(LocaleManager.class);
         GuiManager guiManager = PlayerParticles.getInstance().getManager(GuiManager.class);
 
-        this.fillBorder(BorderColor.WHITE);
+        this.fillBorder(BorderColor.getOrDefault(Setting.GUI_GLASS_COLORS_DEFAULT.getString(), BorderColor.WHITE));
 
         // PPlayer information icon
         ItemStack headIcon;
@@ -91,7 +92,7 @@ public class GuiInventoryDefault extends GuiInventory {
         GuiActionButton manageYourParticlesButton = new GuiActionButton(
                 manageParticlesSlot,
                 GuiIcon.PARTICLES.get(),
-                localeManager.getLocaleMessage("gui-color-icon-name") + localeManager.getLocaleMessage("gui-manage-your-particles"),
+                localeManager.getLocaleMessage("gui-color-icon-name") + localeManager.getLocaleMessage("gui-manage-your-particles-name"),
                 new String[]{localeManager.getLocaleMessage("gui-color-info") + localeManager.getLocaleMessage("gui-manage-your-particles-description")},
                 (button, isShiftClick) -> guiManager.transition(new GuiInventoryManageParticles(pplayer)));
         this.actionButtons.add(manageYourParticlesButton);
@@ -101,7 +102,7 @@ public class GuiInventoryDefault extends GuiInventory {
             GuiActionButton manageYourGroupsButton = new GuiActionButton(
                     manageGroupsSlot,
                     GuiIcon.GROUPS.get(),
-                    localeManager.getLocaleMessage("gui-color-icon-name") + localeManager.getLocaleMessage("gui-manage-your-groups"),
+                    localeManager.getLocaleMessage("gui-color-icon-name") + localeManager.getLocaleMessage("gui-manage-your-groups-name"),
                     new String[]{localeManager.getLocaleMessage("gui-color-info") + localeManager.getLocaleMessage("gui-manage-your-groups-description")},
                     (button, isShiftClick) -> guiManager.transition(new GuiInventoryManageGroups(pplayer, 1)));
             this.actionButtons.add(manageYourGroupsButton);

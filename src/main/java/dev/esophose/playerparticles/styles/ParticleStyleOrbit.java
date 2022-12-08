@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Location;
 
-public class ParticleStyleOrbit extends DefaultParticleStyle {
+public class ParticleStyleOrbit extends ConfiguredParticleStyle {
 
     private int step = 0;
 
@@ -27,7 +27,7 @@ public class ParticleStyleOrbit extends DefaultParticleStyle {
         for (int i = 0; i < this.orbs; i++) {
             double dx = -(MathL.cos((this.step / (double) this.numSteps) * (Math.PI * 2) + (((Math.PI * 2) / this.orbs) * i))) * this.radius;
             double dz = -(MathL.sin((this.step / (double) this.numSteps) * (Math.PI * 2) + (((Math.PI * 2) / this.orbs) * i))) * this.radius;
-            particles.add(new PParticle(location.clone().add(dx, 0, dz)));
+            particles.add(PParticle.point(location.clone().add(dx, 0, dz)));
         }
         return particles;
     }
