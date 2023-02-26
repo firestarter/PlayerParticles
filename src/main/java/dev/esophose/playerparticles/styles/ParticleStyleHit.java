@@ -7,19 +7,19 @@ import dev.esophose.playerparticles.manager.ParticleManager;
 import dev.esophose.playerparticles.particles.PParticle;
 import dev.esophose.playerparticles.particles.PPlayer;
 import dev.esophose.playerparticles.particles.ParticlePair;
-import dev.esophose.playerparticles.util.NMSUtil;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import io.papermc.paper.event.player.PrePlayerAttackEntityEvent;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ParticleStyleHit extends ConfiguredParticleStyle implements Listener {
 
@@ -65,19 +65,30 @@ public class ParticleStyleHit extends ConfiguredParticleStyle implements Listene
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
+    public void preAttack(PrePlayerAttackEntityEvent event) {
+        handleInteraction(event.getPlayer(), event.getAttacked());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageEntity(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player attacker) {
+            handleInteraction(attacker, event.getEntity());
+        }
+    }
+
+    private void handleInteraction(Player attacker, Entity attacked) {
         ParticleManager particleManager = PlayerParticles.getInstance().getManager(ParticleManager.class);
 
-        if (event.getDamager() instanceof Player && event.getEntity() instanceof LivingEntity) {
-            Player player = (Player) event.getDamager();
-            LivingEntity entity = (LivingEntity) event.getEntity();
-            PPlayer pplayer = PlayerParticles.getInstance().getManager(DataManager.class).getPPlayer(player.getUniqueId());
-            if (pplayer == null)
+        if (attacked instanceof LivingEntity entity) {
+            PPlayer pplayer = PlayerParticles.getInstance().getManager(DataManager.class).getPPlayer(attacker.getUniqueId());
+
+            if (pplayer == null) {
                 return;
+            }
 
             for (ParticlePair particle : pplayer.getActiveParticlesForStyle(DefaultStyles.SWORDS)) {
                 Location loc = entity.getLocation().add(0, 1, 0);
-                particleManager.displayParticles(pplayer, player.getWorld(), particle, DefaultStyles.SWORDS.getParticles(particle, loc), false);
+                particleManager.displayParticles(pplayer, attacker.getWorld(), particle, DefaultStyles.SWORDS.getParticles(particle, loc), false);
             }
         }
     }
